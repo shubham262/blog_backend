@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { connectDatabase } from './src/config/database.js';
 import { AgentsRoute } from './src/routes/agentRoute.js';
 import { TicketRoute } from './src/routes/ticketRoute.js';
+dotenv.config();
 const app = express();
 
 //connecting to database
@@ -12,4 +13,6 @@ app.use(express.json());
 app.use('/api', AgentsRoute);
 app.use('/api', TicketRoute);
 
-app.listen(3000, () => console.log('server started at port 3000'));
+app.listen(process.env.PORT, () =>
+	console.log(`server started at port ${process.env.PORT}`)
+);
