@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { connectDatabase } from './config/database.js';
-import { AgentsRoute } from './routes/agentRoute.js';
-import { TicketRoute } from './routes/ticketRoute.js';
+import { connectDatabase } from './src/config/database.js';
+import { AgentsRoute } from './src/routes/agentRoute.js';
+import { TicketRoute } from './src/routes/ticketRoute.js';
 const app = express();
 
 //connecting to database

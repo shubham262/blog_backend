@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
+
 let db;
+console.log("process.env.MONGODB",process.env.MONGODB)
 const connectDatabase = () => {
-	mongoose.connect('mongodb://localhost:27017/TicketEntry', {
+	mongoose.connect(process.env.MONGODB, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});
