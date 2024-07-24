@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { connectDatabase } from './src/config/database.js';
-import { AgentsRoute } from './src/routes/agentRoute.js';
 import { TicketRoute } from './src/routes/ticketRoute.js';
+import { UsersRoute } from './src/routes/userRoute.js';
 dotenv.config();
 const app = express();
 
@@ -10,7 +10,7 @@ const app = express();
 connectDatabase();
 
 app.use(express.json());
-app.use('/api', AgentsRoute);
+app.use('/api', UsersRoute);
 app.use('/api', TicketRoute);
 
 app.listen(process.env.PORT, () =>

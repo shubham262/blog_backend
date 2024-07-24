@@ -2,17 +2,20 @@
 
 import validator from 'validator';
 import {
-	createNewAgentService,
-	getAllAgents,
-} from '../services/agentService.js';
-const createNewSupportingAgent = async (req, res, next) => {
-	try {
-		const { name, email, phone } = req.body;
+	createNewUserService,
+	validateUserEmailService,
+} from '../services/userService.js';
+import bcrypt from 'bcrypt';
 
-		if (!name?.length || !email?.length || !phone?.length) {
+
+const validateUserEmail = async (req, res, next) => {
+	try {
+		const { email } = req.body;
+
+		if (!email?.length ) {
 			return res.status(400).json({
 				success: false,
-				message: 'Please Enter valid name,email and phone values',
+				message: 'Please Enter valid email ',
 			});
 		}
 
@@ -22,14 +25,9 @@ const createNewSupportingAgent = async (req, res, next) => {
 				message: 'Please Enter valid email id.',
 			});
 		}
-		if (phone?.length !== 10) {
-			return res.status(400).json({
-				success: false,
-				message: 'Please Enter valid phoneNumber',
-			});
-		}
+		
 
-		const agentData = await createNewAgentService({ ...req.body });
+		const userData = await validateUserEmailService({ ...req.body });
 
 		res.status(201).json({
 			success: true,
@@ -53,9 +51,26 @@ const createNewSupportingAgent = async (req, res, next) => {
 	}
 };
 
-const getAllSupportingAgent = async (req, res, next) => {
+const createNewUser = async (req, res, next) => {
 	try {
-		const agentData = await getAllAgents();
+		const { email, password } = req.body;
+
+		if (!email?.length || !password?.length) {
+			return res.status(400).json({
+				success: false,
+				message: 'Please Enter valid email and password values',
+			});
+		}
+
+		const saltRounds = 10;
+		const hashedPassword = await bcrypt.hash(password,saltRounds)
+
+		const newUser ={
+			email: email,
+			password: hashedPassword
+		}
+
+		const response = await createNewUserService(newUser);
 
 		res.status(201).json({
 			success: true,
@@ -79,4 +94,5 @@ const getAllSupportingAgent = async (req, res, next) => {
 	}
 };
 
-export { createNewSupportingAgent, getAllSupportingAgent };
+
+export { validateUserEmail, createNewUser };
