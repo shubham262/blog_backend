@@ -4,7 +4,8 @@ import validator from 'validator';
 const userSchema = new mongoose.Schema({
 	username: {
 		type: String,
-		default: "HELLO"
+		required: [true, 'Please Enter your name '],
+		trim: true,
 	},
 	email: {
 		type: String,
@@ -17,9 +18,8 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		trim: true,
 		validate: [validator.isMobilePhone, 'Please enter valid phoneNumber'],
-		default: ""
 	},
-    password: {
+	password: {
 		type: String,
 		required: [true, 'Please Enter your password'],
 		trim: true,
@@ -27,11 +27,10 @@ const userSchema = new mongoose.Schema({
 	displayPicture: {
 		type: String,
 		trim: true,
-		default: ""
 	},
 	dateCreated: {
-		type: String,
-		default: "",
+		type: Date,
+		default: Date.now,
 	},
 });
 

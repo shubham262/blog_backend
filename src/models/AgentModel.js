@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 
-console.log('I am agent Modal');
 const agentSchema = new mongoose.Schema({
 	name: {
 		type: String,

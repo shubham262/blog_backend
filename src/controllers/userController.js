@@ -1,44 +1,31 @@
 // Create new Agents
-
 import validator from 'validator';
 import {
 	createNewUserService,
 	validateUserEmailService,
 } from '../services/userService.js';
-import bcrypt from 'bcrypt';
-
 
 const createNewUser = async (req, res, next) => {
 	try {
-		const { username, email, password } = req.body;
-		if (!email?.length || !password?.length) {
-			return res.status(400).json({
-				success: false,
-				message: 'Please Enter valid email and password values',
-			});
-		}
-
-		const saltRounds = 10;
-		const hashedPassword = await bcrypt.hash(password,saltRounds)
-
-		const newUser ={
-			email: email,
-			password: hashedPassword,
-			phone: "977743025",
-			displayPicture: "fdfs",
-			dateCreated: "sdf"
-		}
+		const { username, email, password, phone, displayPicture } = req.body;
+		const newUser = {
+			username,
+			email,
+			password,
+			phone,
+			displayPicture,
+		};
 		const response = await createNewUserService(newUser);
-		
+
 		res.status(201).json({
-			message: "User Created",
+			message: 'User Created',
 			data: response,
 		});
 	} catch (error) {
-		if (error.name === 'ValidationError') {
+		if (error?.name === 'ValidationError') {
 			return res.status(400).json({
 				success: false,
-				message: 'Validation error',
+				message: error?.message || 'Validation error',
 				errors: error.errors,
 			});
 		}
@@ -46,8 +33,8 @@ const createNewUser = async (req, res, next) => {
 		// Handle other types of errors
 		return res.status(500).json({
 			success: false,
-			message: 'Internal Server Error',
-			error: error.message || error,
+			message: error?.message || 'Internal Server Error',
+			error: error,
 		});
 	}
 };
@@ -56,7 +43,7 @@ const validateUserEmail = async (req, res, next) => {
 	try {
 		const { email } = req.body;
 
-		if (!email?.length ) {
+		if (!email?.length) {
 			return res.status(400).json({
 				success: false,
 				message: 'Please Enter valid email ',
@@ -69,7 +56,6 @@ const validateUserEmail = async (req, res, next) => {
 				message: 'Please Enter valid email id.',
 			});
 		}
-		
 
 		const userData = await validateUserEmailService({ ...req.body });
 
@@ -94,8 +80,5 @@ const validateUserEmail = async (req, res, next) => {
 		});
 	}
 };
-
-
-
 
 export { validateUserEmail, createNewUser };

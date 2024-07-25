@@ -1,9 +1,8 @@
 import express from 'express';
-import {
-	createNewUser,
-} from '../controllers/userController.js';
+import { createNewUser } from '../controllers/userController.js';
+import { validateRegisterUserBody } from '../validators/oauthValidators.js';
 const router = express.Router();
 
-router.route('/register-user').post(createNewUser)
+router.route('/register-user').post(validateRegisterUserBody, createNewUser);
 
-export const UsersRoute = router;
+export const usersRoute = router;

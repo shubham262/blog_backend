@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { connectDatabase } from './src/config/database.js';
-import { TicketRoute } from './src/routes/ticketRoute.js';
-import { UsersRoute } from './src/routes/userRoute.js';
+import { healthRoute } from './src/routes/healthRoute.js';
+import { usersRoute } from './src/routes/userRoute.js';
 dotenv.config();
 const app = express();
 
@@ -10,8 +10,8 @@ const app = express();
 connectDatabase();
 
 app.use(express.json());
-app.use('/api', UsersRoute);
-app.use('/api', TicketRoute);
+app.use('/api', healthRoute);
+app.use('/api', usersRoute);
 
 app.listen(process.env.PORT, () =>
 	console.log(`server started at port ${process.env.PORT}`)
