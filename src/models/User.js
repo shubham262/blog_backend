@@ -4,9 +4,7 @@ import validator from 'validator';
 const userSchema = new mongoose.Schema({
 	username: {
 		type: String,
-		required: [true, 'Please Enter your name '],
-		trim: true,
-		default: ""
+		default: "HELLO"
 	},
 	email: {
 		type: String,
@@ -32,8 +30,8 @@ const userSchema = new mongoose.Schema({
 		default: ""
 	},
 	dateCreated: {
-		type: Date,
-		default: Date.now,
+		type: String,
+		default: "",
 	},
 });
 

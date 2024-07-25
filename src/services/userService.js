@@ -26,7 +26,7 @@ const createNewAgentService = async (data) => {
 
 const createNewUserService = async (newUser) => {
 	try {
-		
+		console.log("newUser here", newUser)
 		const createdUser = await User.create(newUser);
 
 		return {
@@ -37,7 +37,7 @@ const createNewUserService = async (newUser) => {
 			  username: createdUser?.username,
 			  email: createdUser?.email
 			},
-		  };;
+		  };
 	} catch (error) {
 		throw new Error("Unable to Create New User");
 	}
