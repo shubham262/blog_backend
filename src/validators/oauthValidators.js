@@ -1,5 +1,5 @@
 import validator from 'validator';
-import { apiErrorHandler } from '../helpers/errorHandler';
+import { apiErrorHandler } from '../helpers/errorHandler.js';
 
 export const validateRegisterUserBody = async (req, res, next) => {
 	try {
