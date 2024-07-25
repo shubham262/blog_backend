@@ -4,6 +4,7 @@ import {
 	createNewUserService,
 	validateUserEmailService,
 } from '../services/userService.js';
+import { apiErrorHandler } from '../helpers/errorHandler.js';
 
 const createNewUser = async (req, res, next) => {
 	try {
@@ -17,67 +18,26 @@ const createNewUser = async (req, res, next) => {
 		};
 		const response = await createNewUserService(newUser);
 
-		res.status(201).json({
+		return res.status(201).json({
 			message: 'User Created',
 			data: response,
 		});
 	} catch (error) {
-		if (error?.name === 'ValidationError') {
-			return res.status(400).json({
-				success: false,
-				message: error?.message || 'Validation error',
-				errors: error.errors,
-			});
-		}
-
-		// Handle other types of errors
-		return res.status(500).json({
-			success: false,
-			message: error?.message || 'Internal Server Error',
-			error: error,
-		});
+		return apiErrorHandler(res, error);
 	}
 };
 
 const validateUserEmail = async (req, res, next) => {
 	try {
 		const { email } = req.body;
-
-		if (!email?.length) {
-			return res.status(400).json({
-				success: false,
-				message: 'Please Enter valid email ',
-			});
-		}
-
-		if (!validator.isEmail(email)) {
-			return res.status(400).json({
-				success: false,
-				message: 'Please Enter valid email id.',
-			});
-		}
-
-		const userData = await validateUserEmailService({ ...req.body });
+		const userData = await validateUserEmailService(email);
 
 		res.status(201).json({
 			success: true,
-			agentData,
+			userData,
 		});
 	} catch (error) {
-		if (error.name === 'ValidationError') {
-			return res.status(400).json({
-				success: false,
-				message: 'Validation error',
-				errors: error.errors,
-			});
-		}
-
-		// Handle other types of errors
-		return res.status(500).json({
-			success: false,
-			message: 'Internal Server Error',
-			error: error,
-		});
+		return apiErrorHandler(res, error);
 	}
 };
 

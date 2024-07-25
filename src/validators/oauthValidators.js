@@ -1,3 +1,6 @@
+import validator from 'validator';
+import { apiErrorHandler } from '../helpers/errorHandler';
+
 export const validateRegisterUserBody = async (req, res, next) => {
 	try {
 		const { username, email, password } = req.body;
@@ -11,6 +14,20 @@ export const validateRegisterUserBody = async (req, res, next) => {
 
 		next();
 	} catch (error) {
-		throw error;
+		return apiErrorHandler(res, error);
+	}
+};
+
+export const validateCheckExistingUser = async (req, res, next) => {
+	try {
+		const { email } = req.body;
+		if (!email?.length || !validator.isEmail(email)) {
+			return res.status(400).json({
+				success: false,
+				message: 'Please Enter valid email Id',
+			});
+		}
+	} catch (error) {
+		return apiErrorHandler(res, error);
 	}
 };
