@@ -1,10 +1,32 @@
+import Otp from '../models/Otp.js';
 import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
-const createNewUserService = async (newUser) => {
+const createNewUserService = async (data) => {
 	try {
-		const { phone, password, displayPicture } = newUser;
+		const {  username, email, password, phone, displayPicture, otp } = data;
+
+		console.log("Data gere", data)
+		const newUser = {
+			username,
+			email,
+			password,
+			phone,
+			displayPicture,
+		};
+		// Find the most recent OTP for the email
+		const response = await Otp.find({ email }).sort({ createdAt: -1 }).limit(1);
+		console.log("response from otp", response)
+		if (response.length === 0 || otp !== response[0].otp) {
+			console.log("reacjed here")
+		  return res.status(400).json({
+			success: false,
+			message: 'The OTP is not valid',
+		  });
+		}
+
+		
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
 		newUser.password = hashedPassword;
 		if (!displayPicture?.length) {
@@ -14,6 +36,7 @@ const createNewUserService = async (newUser) => {
 			delete newUser?.phone;
 		}
 
+		console.log("newUSer",newUser)
 		const createdUser = await User.create(newUser);
 
 		return {
@@ -31,7 +54,7 @@ const createNewUserService = async (newUser) => {
 	}
 };
 
-const validateUserEmailService = async (email) => {
+const userExistService = async (email) => {
 	try {
 		const existingUser = await User.findOne({
 			$or: [{ email }],
@@ -55,4 +78,4 @@ const validateUserEmailService = async (email) => {
 	}
 };
 
-export { validateUserEmailService, createNewUserService };
+export { userExistService, createNewUserService };

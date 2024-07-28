@@ -14,4 +14,4 @@ router
 	.route('/checkUserExists')
 	.post(validateCheckExistingUser, validateUserEmail);
 
-export const usersRoute = router;
+export const usersRoute = router; 

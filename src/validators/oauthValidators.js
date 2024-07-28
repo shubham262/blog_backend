@@ -11,6 +11,7 @@ export const validateRegisterUserBody = async (req, res, next) => {
 					'Please provide all required fields [username, email, password]',
 			});
 		}
+		
 
 		next();
 	} catch (error) {
