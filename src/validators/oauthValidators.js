@@ -27,6 +27,7 @@ export const validateCheckExistingUser = async (req, res, next) => {
 				message: 'Please Enter valid email Id',
 			});
 		}
+		next();
 	} catch (error) {
 		return apiErrorHandler(res, error);
 	}

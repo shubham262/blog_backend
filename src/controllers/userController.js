@@ -30,11 +30,10 @@ const createNewUser = async (req, res, next) => {
 const validateUserEmail = async (req, res, next) => {
 	try {
 		const { email } = req.body;
-		const userData = await validateUserEmailService(email);
+		const data = await validateUserEmailService(email);
 
 		res.status(201).json({
-			success: true,
-			userData,
+			data,
 		});
 	} catch (error) {
 		return apiErrorHandler(res, error);

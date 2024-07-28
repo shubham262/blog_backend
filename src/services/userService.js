@@ -40,12 +40,14 @@ const validateUserEmailService = async (email) => {
 		if (existingUser) {
 			return {
 				status: 400,
+				data: true,
 				message: 'User already exists',
 			};
 		}
 
 		return {
 			status: 200,
+			data: false,
 			message: 'Can Make New User',
 		};
 	} catch (error) {
