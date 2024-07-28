@@ -1,7 +1,7 @@
 import express from 'express';
 import {
 	createNewUser,
-	validateUserEmail,
+	userExist,
 } from '../controllers/userController.js';
 import {
 	validateCheckExistingUser,
@@ -12,6 +12,6 @@ const router = express.Router();
 router.route('/register-user').post(validateRegisterUserBody, createNewUser);
 router
 	.route('/checkUserExists')
-	.post(validateCheckExistingUser, validateUserEmail);
+	.post(validateCheckExistingUser, userExist);
 
 export const usersRoute = router; 
