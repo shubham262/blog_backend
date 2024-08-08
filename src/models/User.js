@@ -2,11 +2,6 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 
 const userSchema = new mongoose.Schema({
-	username: {
-		type: String,
-		required: [true, 'Please Enter your name '],
-		trim: true,
-	},
 	email: {
 		type: String,
 		required: [true, 'Please Enter your Email'],
@@ -14,23 +9,11 @@ const userSchema = new mongoose.Schema({
 		unique: true,
 		validate: [validator.isEmail, 'Please enter valid email'],
 	},
-	phone: {
-		type: String,
-		trim: true,
-		validate: [validator.isMobilePhone, 'Please enter valid phoneNumber'],
-	},
+
 	password: {
 		type: String,
 		required: [true, 'Please Enter your password'],
 		trim: true,
-	},
-	displayPicture: {
-		type: String,
-		trim: true,
-	},
-	dateCreated: {
-		type: Date,
-		default: Date.now,
 	},
 });
 

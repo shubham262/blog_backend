@@ -1,17 +1,13 @@
 import express from 'express';
+import { createNewUser, loginUser } from '../controllers/userController.js';
 import {
-	createNewUser,
-	userExist,
-} from '../controllers/userController.js';
-import {
-	validateCheckExistingUser,
 	validateRegisterUserBody,
-} from '../validators/oauthValidators.js';
+	validateLoginBody,
+} from '../validators/userValidator.js';
+
 const router = express.Router();
 
-router.route('/register-user').post(validateRegisterUserBody, createNewUser);
-router
-	.route('/checkUserExists')
-	.post(validateCheckExistingUser, userExist);
+router.route('/signup').post(validateRegisterUserBody, createNewUser);
+router.route('/login').post(validateLoginBody, loginUser);
 
-export const usersRoute = router; 
+export const usersRoute = router;
