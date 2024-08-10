@@ -20,7 +20,10 @@ export const createNewPostService = async (data, authorId) => {
 
 export const getAllPostsService = async (queries = {}) => {
 	try {
-		const postData = await Post.find({ ...queries });
+		const postData = await Post.find({ ...queries }).populate(
+			'authorId',
+			'email'
+		);
 		return {
 			status: 200,
 			data: postData,

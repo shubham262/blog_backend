@@ -27,6 +27,15 @@ export const createNewUserService = async (data) => {
 		newUser.password = hashedPassword;
 		const createdUser = await User.create(newUser);
 
+		const payload = {
+			id: createdUser?._id,
+			email: createdUser?.email,
+		};
+
+		let token = jwt.sign(payload, process.env.JWT_SECRET, {
+			expiresIn: '2h',
+		});
+
 		return {
 			status: 200,
 			message: 'Created New User',
@@ -34,6 +43,7 @@ export const createNewUserService = async (data) => {
 				id: createdUser?._id,
 				email: createdUser?.email,
 			},
+			token,
 		};
 	} catch (error) {
 		let newError = { ...error, message: 'Unable to Create New User' };
